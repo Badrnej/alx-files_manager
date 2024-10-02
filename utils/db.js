@@ -30,29 +30,11 @@ class DBClient {
   }
 
   /**
-   * Retrieves the number of documents in a collection.
-   * @param {string} collectionName The name of the collection.
-   * @returns {Promise<Number>}
-   */
-  async countDocuments(collectionName) {
-    return this.client.db().collection(collectionName).countDocuments();
-  }
-
-  /**
-   * Retrieves a reference to a collection.
-   * @param {string} collectionName The name of the collection.
-   * @returns {Promise<Collection>}
-   */
-  async collection(collectionName) {
-    return this.client.db().collection(collectionName);
-  }
-
-  /**
    * Retrieves the number of users in the database.
    * @returns {Promise<Number>}
    */
   async nbUsers() {
-    return this.countDocuments('users');
+    return this.client.db().collection('users').countDocuments();
   }
 
   /**
@@ -60,7 +42,7 @@ class DBClient {
    * @returns {Promise<Number>}
    */
   async nbFiles() {
-    return this.countDocuments('files');
+    return this.client.db().collection('files').countDocuments();
   }
 
   /**
@@ -68,7 +50,7 @@ class DBClient {
    * @returns {Promise<Collection>}
    */
   async usersCollection() {
-    return this.collection('users');
+    return this.client.db().collection('users');
   }
 
   /**
@@ -76,7 +58,7 @@ class DBClient {
    * @returns {Promise<Collection>}
    */
   async filesCollection() {
-    return this.collection('files');
+    return this.client.db().collection('files');
   }
 }
 

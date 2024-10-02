@@ -29,21 +29,12 @@ class RedisClient {
   }
 
   /**
-   * Promisifies a Redis client method and binds it to the client instance.
-   * @param {Function} method The Redis client method to promisify and bind.
-   * @returns {Function} The promisified and bound method.
-   */
-  promisifiedMethod(method) {
-    return promisify(method).bind(this.client);
-  }
-
-  /**
    * Retrieves the value of a given key.
    * @param {String} key The key of the item to retrieve.
    * @returns {String | Object}
    */
   async get(key) {
-    return this.promisifiedMethod(this.client.GET)(key);
+    return promisify(this.client.GET).bind(this.client)(key);
   }
 
   /**
@@ -64,7 +55,7 @@ class RedisClient {
    * @returns {Promise<void>}
    */
   async del(key) {
-    return this.promisifiedMethod(this.client.DEL)(key);
+    await promisify(this.client.DEL).bind(this.client)(key);
   }
 }
 
